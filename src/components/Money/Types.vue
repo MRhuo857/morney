@@ -30,28 +30,7 @@
       }
       this.type = type;
     }
-    mounted(){
-      console.log(this.xxx);
-    }
   }
-
-  // export default {
-  //     name: 'Types',
-  //     data() {
-  //         return {
-  //             type: '-' //'-'代表支出，'+'代表收入
-  //         }
-  //     },
-  //     methods: {
-  //         selectType(type) { //type只能是'+','-'中的一个
-  //             if (type !== '-' && type !== '+') {
-  //                 throw new Error('type is unknown')
-  //             }
-  //             this.type = type
-  //             console.log(type)
-  //         }
-  //     },
-  // };
 </script>
 <style lang="scss" scoped>
     @import "~@/assets/style/helper.scss";
