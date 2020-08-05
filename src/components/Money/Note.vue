@@ -1,20 +1,33 @@
 <template>
     <div>
         <label class="note">
-            <span class="name">备注</span>
-            <input type="text" placeholder="点击添加备注...">
+            <span class="name">备注:</span>
+            <input type="text"
+            v-model="value"
+            placeholder="点击添加备注...">
         </label>
     </div>
 </template>
 
 <script lang="ts">
-  export default {
-    name: 'Note'
-  };
+  import Vue from 'vue';
+  import {Component} from 'vue-property-decorator';
+
+  @Component
+  export default class Note extends Vue {
+    value = '';
+
+    oninput(event: KeyboardEvent) {
+      const input = event.target as HTMLInputElement;
+      this.value = input.value;
+    }
+
+  }
 </script>
 
 <style lang="scss" scoped>
     @import "~@/assets/style/helper.scss";
+
     .note {
         font-size: 14px;
         background: #f5f5f5;
