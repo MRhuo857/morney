@@ -2,7 +2,7 @@
     <Layout class-prefix="layout">
         <NumberPad/>
         <Note/>
-        <Tags :data-source="tags"/>
+        <Tags :data-source.sync="tags"/>
         <Types :xxx=" 333 "/>
     </Layout>
 </template>
