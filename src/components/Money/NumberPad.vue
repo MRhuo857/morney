@@ -55,10 +55,12 @@
     clear() {
       this.output = '0';
     }
-    ok(){}
+    ok(){
+      this.$emit('update:value',this.output)
+      this.$emit('submit',this.output)
+    }
   }
 </script>
-
 <style lang="scss" scoped>
     @import "~@/assets/style/helper.scss";
 
