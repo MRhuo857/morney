@@ -3,11 +3,11 @@
         {{record}}
         <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
         <div class="notes">
-            <FormItem filed-name="备注"
-                      @update:value="onUpdateNotes"
-                      placeholder="在这里输入备注"
-            />
-        </div>
+        <FormItem field-name="备注"
+                  placeholder="在这里输入备注"
+                  @update:value="onUpdateNotes"
+        />
+    </div>
 
         <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
         <Types @update:value="onUpdateType"/>
