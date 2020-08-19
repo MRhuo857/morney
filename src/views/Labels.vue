@@ -7,33 +7,35 @@
                 <span>{{tag.name}}</span>
                 <Icon name="right"/>
             </router-link>
-
         </div>
         <div class="createTag-wrapper">
-            <Button class="createTag" @click="createTag">新建标签</Button>
+            <Button class="createTag"
+                    @click="createTag">
+                新建标签
+            </Button>
         </div>
     </Layout>
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
   import Button from '@/components/Button.vue';
+  import {mixins} from 'vue-class-component';
+  import TagHelper from '@/mixins/TagHelper';
 
   @Component({
-    components: {Button}
-  })
-  export default class Labels extends Vue {
-    //TODO
-    tags =[] //store.tagList;
-
-    createTag() {
-      const name = window.prompt('请输入标签名');
-      if (name) {
-        // TODO
-        // store.createTag(name);
+    components: {Button},
+    computed: {
+      tags() {
+        return this.$store.state.tagList;
       }
     }
+  })
+  export default class Labels extends mixins(TagHelper) {
+    beforeCreate() {
+      this.$store.commit('fetchTags');
+    }
+
   }
 </script>
 
