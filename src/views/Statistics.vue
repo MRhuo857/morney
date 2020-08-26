@@ -3,8 +3,8 @@
         <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
         <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
         <ol>
-            <li v-for="(group,index) in result" :key="index">
-                <h3 class="title"> {{group.title}}</h3>
+            <li v-for="group in result" :key="group.title">
+                <h3 class="title"> {{beautify(group.title) }}</h3>
                 <ol>
                     <li v-for="item in group.items" :key="item.id"
                         class="record"
@@ -26,6 +26,7 @@
   import Tabs from '@/components/Tabs.vue';
   import intervalList from '@/constants/intervalList';
   import recordTypeList from '@/constants/recordTypeList';
+  import dayjs from 'dayjs';
 
   @Component({
     components: {Tabs},
@@ -34,6 +35,22 @@
     tagString(tags: Tag[]) {
       return tags.length === 0 ? '无' : tags.join(',');
     }
+
+    beautify(string: string) {
+      const day = dayjs(string);
+      const now = dayjs();
+      if (day.isSame(now, 'day')) {
+        return '今天';
+      } else if (day.isSame(now.subtract(1,'day'),'day')){
+        return '昨天'
+      }else if (day.isSame(now.subtract(2,'day'),'day')){
+        return '前天'
+      }else if (day.isSame(now,'year')){
+        return day.format('YYYY年M月D日')
+      } else {
+        return day.format('YYYY年MM月DD日')
+      }
+        }
 
     get recordList() {
       return (this.$store.state as RootState).recordList;
@@ -103,6 +120,6 @@
     .notes {
         margin-right: auto;
         margin-left: 16px;
-        color:#999;
+        color: #999;
     }
 </style>
