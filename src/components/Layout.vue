@@ -15,13 +15,13 @@
 </script>
 <style lang="scss" scoped>
     .layout-wrapper {
-        border: 1px solid green;
         display: flex;
         flex-direction: column;
+        min-height: 100vh;
     }
 
     .content {
-        height: 100vh;
         overflow: auto;
+        flex-grow: 1;
     }
 </style>
