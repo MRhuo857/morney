@@ -91,6 +91,7 @@
                 &.ok {
                     height: 64*2px;
                     float: right;
+                    background: #ffd514;
                 }
 
                 &.zero {

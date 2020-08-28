@@ -7,7 +7,7 @@
                       :value.sync="record.notes"
             />
         </div>
-        <Tags @update:value="record.tags=$event" />
+        <Tags @update:value="record.tags=$event"/>
         <Tabs :data-source="recordTypeList"
               :value.sync="record.type"/>
     </Layout>

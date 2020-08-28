@@ -12,7 +12,6 @@ Vue.config.productionTip = false;
 Vue.component('Nav', Nav);
 Vue.component('Layout', Layout);
 Vue.component('Icon', Icon);
-//record store
 new Vue({
   router,
   store,
@@ -20,6 +19,6 @@ new Vue({
 }).$mount('#app');
 window.onload = function () {
   setTimeout(function () {
-    window.scroll(0, 1000);
+    window.scroll(0, 200);
   }, 0);
 };
