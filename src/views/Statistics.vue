@@ -1,6 +1,7 @@
 <template>
     <Layout>
         <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+        <Chart :options="x"/>
         <ol v-if="groupedList.length>0">
             <li v-for="(group,index) in groupedList" :key="index">
                 <h3 class="title"> {{beautify(group.title) }}<span>￥{{group.total}}</span></h3>
@@ -30,13 +31,14 @@
   import recordTypeList from '@/constants/recordTypeList';
   import dayjs from 'dayjs';
   import clone from '@/lib/clone';
+  import Chart from '@/components/Chart.vue'
 
   @Component({
-    components: {Tabs},
+    components: {Tabs,Chart}
   })
   export default class Statistics extends Vue {
     tagString(tags: Tag[]) {
-      return tags.length === 0 ? '无' : tags.map(t=>t.name).join('，');
+      return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
     }
 
     beautify(string: string) {
@@ -55,6 +57,25 @@
       }
     }
 
+    get x() {
+      return{
+        xAxis: {
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+          type: 'value'
+        },
+        tooltip:{
+          show:true
+        },
+        series: [{
+          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          type: 'line'
+        }]
+      }
+    }
+
     get recordList() {
       return (this.$store.state as RootState).recordList;
     }
@@ -67,7 +88,7 @@
         .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
       if (newList.length === 0) {return [];}
       type Result = { title: string, total?: number, items: RecordItem[] }[]
-      const result:Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
+      const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
       for (let i = 1; i < newList.length; i++) {
         const current = newList[i];
         const last = result[result.length - 1];
@@ -95,10 +116,15 @@
 </script>
 
 <style lang="scss" scoped>
-    .noResult{
+    .echarts{
+        width: 100%;
+    }
+    .noResult {
         padding: 20px;
         text-align: center;
+        height: 400px;
     }
+
     ::v-deep {
         .type-tabs-item {
             background: white;
