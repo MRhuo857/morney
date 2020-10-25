@@ -24,7 +24,7 @@
 <style lang="scss" scoped>
     @import "~@/assets/style/helper.scss";
     nav {
-        @extend %outerShadow;
+        border-top: 1px solid rgb(200,200,200);
         display: flex;
         flex-direction: row;
         font-size: 12px;

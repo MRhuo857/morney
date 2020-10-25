@@ -1,8 +1,15 @@
 <template>
     <Layout class-prefix="layout">
         <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
+        <div class="createdAt">
+            <FormItem field-name="选择日期:"
+                      type="date"
+                      placeholder="在这里输入备注"
+                      :value.sync="record.createdAt"
+            />
+        </div>
         <div class="notes">
-            <FormItem field-name="备注"
+            <FormItem field-name="备注:"
                       placeholder="在这里输入备注"
                       :value.sync="record.notes"
             />
@@ -32,18 +39,8 @@
 
     recordTypeList = recordTypeList;
     record: RecordItem = {
-      tags: [], notes: '', amount: 0, type: '-'
+      tags: [], notes: '', amount: 0, type: '-',createdAt:new Date().toISOString()
     };
-
-    created() {
-      this.$store.commit('fetchRecords');
-
-    }
-
-    onUpdateNotes(value: string) {
-      this.record.notes = value;
-    }
-
     onUpdateAmount(value: string) {
       this.record.amount = parseFloat(value);
     }
