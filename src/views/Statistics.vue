@@ -1,7 +1,10 @@
 <template>
     <Layout>
         <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-        <Chart :options="x"/>
+        <div class="chartWrapper">
+            <Chart class="chart" :options="x"/>
+        </div>
+
         <ol v-if="groupedList.length>0">
             <li v-for="(group,index) in groupedList" :key="index">
                 <h3 class="title"> {{beautify(group.title) }}<span>￥{{group.total}}</span></h3>
@@ -31,10 +34,10 @@
   import recordTypeList from '@/constants/recordTypeList';
   import dayjs from 'dayjs';
   import clone from '@/lib/clone';
-  import Chart from '@/components/Chart.vue'
+  import Chart from '@/components/Chart.vue';
 
   @Component({
-    components: {Tabs,Chart}
+    components: {Tabs, Chart}
   })
   export default class Statistics extends Vue {
     tagString(tags: Tag[]) {
@@ -58,22 +61,42 @@
     }
 
     get x() {
-      return{
+
+      return {
+        grid: {
+          left: 0,
+          right: 0,
+        },
         xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'
+            , '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'
+            , '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'
+          ],
+          axisTick:{
+            alignWithLabel: true},
+          axisLine:{lineStyle:{color:'#FFAF14'}}
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          show: false
         },
-        tooltip:{
-          show:true
+        tooltip: {
+          show: true,
+          triggerOn:'click',
+          position:'top'
         },
         series: [{
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          symbol:'circle',
+          itemStyle:{color:'#FFAF14'},
+          symbolSize: 10,
+          data: [820, 932, 901, 934, 1290, 1330, 1320, 200, 300, 100
+            , 820, 932, 901, 934, 1290, 1330, 1320, 200, 300, 100
+            , 820, 932, 901, 934, 1290, 1330, 1320, 200, 300, 100
+          ],
           type: 'line'
-        }]
-      }
+        }],
+      };
     }
 
     get recordList() {
@@ -116,9 +139,10 @@
 </script>
 
 <style lang="scss" scoped>
-    .echarts{
+    .echarts {
         width: 100%;
     }
+
     .noResult {
         padding: 20px;
         text-align: center;
@@ -165,4 +189,11 @@
         margin-left: 16px;
         color: #999;
     }
+    .chartWrapper{
+        overflow: auto;
+       >.chart{
+            width: 430%;
+        }
+    }
+
 </style>
