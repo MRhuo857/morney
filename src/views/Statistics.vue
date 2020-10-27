@@ -1,13 +1,13 @@
 <template>
     <Layout>
-        <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+        <Tabs class="t-css" class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
         <div class="chart-wrapper" ref="chartWrapper">
-            <Chart class="chart" :options="x"/>
+            <Chart class="chart" :options="chartOptions"/>
         </div>
 
         <ol v-if="groupedList.length>0">
             <li v-for="(group,index) in groupedList" :key="index">
-                <h3 class="title"> {{beautify(group.title) }}<span>￥{{group.total}}</span></h3>
+                <h3 class="title"> {{beautify(group.title) }}<span>总计:￥{{group.total}}</span></h3>
                 <ol>
                     <li v-for="item in group.items" :key="item.id"
                         class="record"
@@ -35,7 +35,7 @@
   import dayjs from 'dayjs';
   import clone from '@/lib/clone';
   import Chart from '@/components/Chart.vue';
-  import day from 'dayjs'
+  import day from 'dayjs';
   import _ from 'lodash';
 
   @Component({
@@ -67,25 +67,25 @@
       }
     }
 
-    get x() {
+    get chartOptions() {
       const today = new Date();
-      const array=[]
-      for (let i=0;i<=29;i++){
-        const dateString= day(today).subtract(i,'day').format('YYYY-MM-DD')
-        const found=_.find(this.recordList,{createdAt:dateString})
-        array.push({date:dateString,value:found?found.amount:0})
+      const array = [];
+      for (let i = 0; i <= 29; i++) {
+        const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD');
+        const found = _.find(this.groupedList, {title: dateString});
+        array.push({date: dateString, value: found ? found.total : 0});
       }
-      array.sort((a,b)=>{
-        if (a.date>b.date){
-          return 1
-        }else if (a.date===b.date){
-          return 0
-        }else {
-          return -1
+      array.sort((a, b) => {
+        if (a.date > b.date) {
+          return 1;
+        } else if (a.date === b.date) {
+          return 0;
+        } else {
+          return -1;
         }
-      })
-      const keys=array.map(item=>item.date)
-      const values=array.map(item=>item.value)
+      });
+      const keys = array.map(item => item.date);
+      const values = array.map(item => item.value);
       return {
         grid: {
           left: 0,
@@ -95,7 +95,12 @@
           type: 'category',
           data: keys,
           axisTick: {alignWithLabel: true},
-          axisLine: {lineStyle: {color: '#FFAF14'}}
+          axisLine: {lineStyle: {color: '#FFAF14'}},
+          axisLabel: {
+            formatter: function (value: string) {
+              return value.substr(5);
+            }
+          }
         },
         yAxis: {
           type: 'value',
@@ -104,13 +109,14 @@
         tooltip: {
           show: true,
           triggerOn: 'click',
-          position: 'top'
+          position: 'top',
+          formatter: '{c}'
         },
         series: [{
           symbol: 'circle',
           itemStyle: {color: '#FFAF14'},
           symbolSize: 10,
-          data:values,
+          data: values,
           type: 'line'
         }],
       };
@@ -163,7 +169,7 @@
     .noResult {
         padding: 20px;
         text-align: center;
-        height: 400px;
+        height: 300px;
     }
 
     ::v-deep {
@@ -207,11 +213,15 @@
         color: #999;
     }
 
-    .chart-wrapper {
-        overflow: auto;
-
-        > .chart {
-            width: 430%;
+    .chart {
+        margin-top: 1px;
+        width: 430%;
+        background: white;
+        &-wrapper {
+            overflow: auto;
+            &::-webkit-scrollbar {
+                display: none;
+            }
         }
     }
 

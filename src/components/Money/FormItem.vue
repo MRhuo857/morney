@@ -34,8 +34,9 @@
     onValueChanged(value: string) {
       this.$emit('update:value', value);
     }
-    x(isoString:string){
-      return dayjs(isoString).format('YYYY-MM-DD')
+
+    x(isoString: string) {
+      return dayjs(isoString).format('YYYY-MM-DD');
 
     }
   }
@@ -49,6 +50,10 @@
         padding-left: 16px;
         display: flex;
         align-items: center;
+        background: white;
+        margin: 0 10px 12px 10px;
+        border-radius: 4px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 
         .name {
             padding-right: 16px;
