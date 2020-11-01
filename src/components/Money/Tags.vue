@@ -55,12 +55,10 @@
         flex-grow: 1;
         display: flex;
         flex-direction: column-reverse;
-        min-height: 140px;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+
         > .current {
             display: flex;
             flex-wrap: wrap;
-
             > li {
                 background: #d9d9d9;
                 height: 24px;
@@ -69,7 +67,7 @@
                 padding: 0 16px;
                 margin-right: 12px;
                 margin-top: 4px;
-
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
                 &.selected {
                     background: $color-highlight;
                     color: white
